@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +33,24 @@ public class CategoryServiceImpl implements ICategoryService {
         return ResponseVo.success(categoryVoList);
 
 
+    }
+
+    @Override
+    public void findSubCategoryId(Integer id, Set<Integer> resultSet) {
+        List<Category> categoryList = mapper.selectAll();
+        findSubCategoryId(id,resultSet,categoryList);
+
+
+    }
+    private void findSubCategoryId(Integer id, Set<Integer> resultSet,List<Category> categoryList)
+    {
+        for (Category category : categoryList) {
+            if(category.getParentId().equals(id))
+            {
+                resultSet.add(category.getId());
+                findSubCategoryId(category.getId(),resultSet,categoryList);
+            }
+        }
     }
 
     public CategoryVo category2CategoryVo(Category category) {
