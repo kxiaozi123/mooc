@@ -1,6 +1,7 @@
 package com.imooc.mall.handler;
 
 import com.imooc.mall.enums.ResponseEnum;
+import com.imooc.mall.exception.UserLoginException;
 import com.imooc.mall.vo.ResponseVo;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,6 +24,11 @@ public class RuntimeExceptionHandler {
 //	@ResponseStatus(HttpStatus.FORBIDDEN)
 	public ResponseVo handle(RuntimeException e) {
 		return ResponseVo.error(ERROR, e.getMessage());
+	}
+	@ExceptionHandler(UserLoginException.class)
+	@ResponseBody
+	public ResponseVo userLoginHandle() {
+		return ResponseVo.error(ResponseEnum.NEED_LOGIN);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
