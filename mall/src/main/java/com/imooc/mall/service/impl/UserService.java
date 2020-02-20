@@ -33,7 +33,7 @@ public class UserService implements IUserService {
         user.setRole(RoleEnum.CUSTOMER.getCode());
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes(StandardCharsets.UTF_8)));
         int resultCount = userMapper.insertSelective(user);
-        if(resultCount<0)
+        if(resultCount==0)
         {
             return  ResponseVo.error(ERROR);
         }
